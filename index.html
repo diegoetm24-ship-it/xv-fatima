@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis XV Años - Fátima Natalia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #Fdf2f5;
+            --primary-color: #905C72;
+            --font-cursive: 'Great Vibes', cursive;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        /* Bloqueamos el scroll en el html/body para delegarlo al contenedor */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            font-family: var(--font-serif);
+            overflow: hidden; 
+        }
+
+        /* Contenedor principal con Scroll Snapping */
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        /* Cada sección es una pantalla completa obligatoria */
+        section {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        /* Animaciones */
+        .anim-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .anim-side {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Clase de estado inyectada por JS */
+        .visible {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-cursive);
+            font-weight: normal;
+            margin: 0 0 15px 0;
+            text-align: center;
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 5px 0;
+            text-align: center;
+        }
+
+        /* Tipografía específica */
+        .subtitle { font-size: 2rem; margin-top: -15px; margin-bottom: 20px;}
+
+        /* Contador */
+        .countdown-wrapper { margin: 30px 0; text-align: center; }
+        .countdown-labels { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
+        .countdown-timer { font-size: 2.2rem; font-weight: 600; letter-spacing: 3px; }
+
+        /* RSVP */
+        .rsvp-form {
+            text-align: left;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 320px;
+        }
+        .rsvp-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(144, 92, 114, 0.2);
+        }
+        .rsvp-option input[type="radio"] {
+            accent-color: var(--primary-color);
+            transform: scale(1.2);
+            margin-right: 10px;
+        }
+        .btn-confirm {
+            background-color: #a4788c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-family: var(--font-serif);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-confirm:hover { background-color: var(--primary-color); }
+
+        /* Itinerario minimalista sin emojis */
+        .timeline {
+            position: relative;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+        }
+        .timeline-item { margin-bottom: 25px; }
+
+        /* Botón Mapa */
+        .btn-map {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #a4788c;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        .btn-map:hover { background-color: var(--primary-color); }
+    </style>
+</head>
+<body>
+
+<div class="scroll-container">
+    
+    <section>
+        <div class="anim-up">
+            <h1>Mis XV Años</h1>
+            <div class="countdown-wrapper">
+                <div class="countdown-labels">Faltan: DÍAS : HORAS : MINUTOS : SEGUNDOS</div>
+                <div class="countdown-timer" id="timer">00 : 00 : 00 : 00</div>
+            </div>
+            <h1>Fátima Natalia</h1>
+            <h2 class="subtitle">Gil Alvarado</h2>
+        </div>
+    </section>
+
+    <section>
+        <div class="anim-side">
+            <h2>Mis Padres</h2>
+            <p>Héctor Alfredo Gil Peña<br>Ariadna Alvarado Nolasco</p>
+            <br><br>
+            <h2>Mis Padrinos</h2>
+            <p>Raúl Reyes Padron<br>Verónica Tania Alvarado Nolasco</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="anim-up" style="width: 100%;">
+            <h2>Confirmación RSVP</h2>
+            <p>Bienvenida, <strong id="fam-name">Familia</strong></p>
+            <p>Tienes <strong id="pass-count">0</strong> pases asignados</p>
+            
+            <div class="rsvp-form" id="rsvp-container">
+                </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="anim-side">
+            <h2>¿Cuándo y Dónde?</h2>
+            <p><strong>Inicio del Evento:</strong> 2:30 pm</p>
+            <br>
+            <p>Hacienda San Marcos,<br>Av. San Mateo Nopala #124 Col. Santiago<br>Occipaco Naucalpan, Estado de México</p>
+            <a href="https://maps.google.com" target="_blank" class="btn-map">Ver Ubicación 📍</a>
+        </div>
+    </section>
+
+    <section>
+        <div class="anim-up">
+            <h2>Mesa de Regalos</h2>
+            <p>Detalles de la mesa de regalos próximamente.<br>Por favor, consulta a los padres.</p>
+            <br><br>
+            <h2>Vestimenta</h2>
+            <p><strong>Código de Vestimenta:</strong><br>Formal (con bota)</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="anim-side">
+            <h2>Itinerario</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <strong>Ceremonia Religiosa</strong><br>4:00 pm
+                </div>
+                <div class="timeline-item">
+                    <strong>Recepción</strong><br>5:00 pm
+                </div>
+                <div class="timeline-item">
+                    <strong>Cena</strong><br>6:30 pm
+                </div>
+                <div class="timeline-item">
+                    <strong>Baile</strong><br>7:30 pm
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // 1. LÓGICA RSVP DINÁMICO
+    const urlParams = new URLSearchParams(window.location.search);
+    const family = urlParams.get('f') || 'Invitado';
+    const passes = parseInt(urlParams.get('p')) || 1;
+
+    document.getElementById('fam-name').innerText = family;
+    document.getElementById('pass-count').innerText = passes;
+
+    const rsvpContainer = document.getElementById('rsvp-container');
+    for (let i = passes; i >= 0; i--) {
+        let labelText = i === 0 ? "0 (No asistiremos)" : `Confirmar ${i} pase${i > 1 ? 's' : ''}`;
+        
+        rsvpContainer.innerHTML += `
+            <div class="rsvp-option">
+                <label>
+                    <input type="radio" name="rsvp-radio" value="${i}">
+                    ${labelText}
+                </label>
+                <button class="btn-confirm" onclick="enviarRSVP(${i})">Confirmar</button>
+            </div>
+        `;
+    }
+
+    function enviarRSVP(cantidad) {
+        alert(`Payload preparado: Familia ${family}, Pases: ${cantidad}. Listo para tu backend.`);
+    }
+
+    // 2. LÓGICA DE ANIMACIÓN (TRIGGER ON SCROLL UP & DOWN)
+    // Se utiliza un root definido para manejar mejor el scroll snap
+    const observerOptions = { 
+        root: document.querySelector('.scroll-container'), 
+        rootMargin: '0px', 
+        threshold: 0.3 
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Entra al viewport: se anima
+                entry.target.classList.add('visible');
+            } else {
+                // Sale del viewport: se reinicia el estado para volver a animar
+                entry.target.classList.remove('visible');
+            }
+        });
+    }, observerOptions);
+
+    // Seleccionamos los contenedores internos para animar, no el <section> entero
+    document.querySelectorAll('.anim-up, .anim-side').forEach(el => {
+        observer.observe(el);
+    });
+
+    // 3. CONTADOR
+    const targetDate = new Date("Dec 31, 2026 14:30:00").getTime();
+    const timerEl = document.getElementById('timer');
+
+    setInterval(() => {
+        const now = new Date().getTime();
+        const dist = targetDate - now;
+
+        if (dist < 0) { timerEl.innerHTML = "¡INICIADO!"; return; }
+
+        const format = (num) => num.toString().padStart(2, '0');
+        const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+        const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((dist % (1000 * 60)) / 1000);
+
+        timerEl.innerHTML = `${format(d)} : ${format(h)} : ${format(m)} : ${format(s)}`;
+    }, 1000);
+</script>
+
+</body>
+</html>
